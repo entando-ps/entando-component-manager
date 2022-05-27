@@ -24,10 +24,12 @@ import org.entando.kubernetes.exception.EntandoComponentManagerException;
 import org.entando.kubernetes.exception.digitalexchange.ReportAnalysisException;
 import org.entando.kubernetes.model.bundle.ComponentType;
 import org.entando.kubernetes.model.bundle.descriptor.Descriptor;
+import org.entando.kubernetes.model.bundle.descriptor.plugin.PluginDescriptor;
 import org.entando.kubernetes.model.bundle.downloader.BundleDownloader;
 import org.entando.kubernetes.model.bundle.downloader.BundleDownloaderFactory;
 import org.entando.kubernetes.model.bundle.installable.Installable;
 import org.entando.kubernetes.model.bundle.processor.ComponentProcessor;
+import org.entando.kubernetes.model.bundle.processor.WidgetProcessor;
 import org.entando.kubernetes.model.bundle.reader.BundleReader;
 import org.entando.kubernetes.model.bundle.reportable.AnalysisReportFunction;
 import org.entando.kubernetes.model.bundle.reportable.Reportable;
@@ -355,7 +357,24 @@ public class EntandoBundleInstallService implements EntandoBundleJobExecutor {
 
     private Queue<Installable> getInstallableComponentsByPriority(BundleReader bundleReader,
             InstallAction conflictStrategy, InstallPlan installPlan) {
-        return processorMap.values().stream()
+
+        if (processorMap.containsKey(ComponentType.PLUGIN)) {
+
+            final List<? extends Installable<?>> pluginInstallables = processorMap.get(ComponentType.PLUGIN)
+                    .process(bundleReader, conflictStrategy, installPlan);
+
+            final Map<String, String> pluginIngressMap = pluginInstallables.stream()
+                    .filter(i -> i.getComponentType() == ComponentType.PLUGIN)
+                    .map(Installable::getRepresentation)
+                    .collect(Collectors.toMap(
+                            o -> o.getComponentKey().getKey(),
+                            d -> BundleUtilities.composeIngressPathFromDockerImage((PluginDescriptor) d)));
+
+            ((WidgetProcessor) processorMap.get(ComponentType.WIDGET)).setPluginIngressPathMap(pluginIngressMap);
+        }
+
+        return processorMap.values().stream()   // TODO avoid to reprocess plugins
+//                .filter(processor -> !(processor instanceof PluginProcessor))  // skip plugins that have been already processed at the beginning of the method
                 .map(processor -> processor.process(bundleReader, conflictStrategy, installPlan))
                 .flatMap(List::stream)
                 .sorted(Comparator.comparingInt(Installable::getPriority))

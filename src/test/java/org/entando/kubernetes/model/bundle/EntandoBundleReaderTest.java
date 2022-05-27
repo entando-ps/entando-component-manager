@@ -3,6 +3,7 @@ package org.entando.kubernetes.model.bundle;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +11,10 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -32,13 +35,13 @@ import org.entando.kubernetes.model.bundle.descriptor.GroupDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.LabelDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.LanguageDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.PageDescriptor;
-import org.entando.kubernetes.model.bundle.descriptor.WidgetDescriptor;
-import org.entando.kubernetes.model.bundle.descriptor.WidgetDescriptor.ConfigUIDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.plugin.EnvironmentVariable;
 import org.entando.kubernetes.model.bundle.descriptor.plugin.PluginDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.plugin.PluginPermission;
 import org.entando.kubernetes.model.bundle.descriptor.plugin.SecretKeyRef;
 import org.entando.kubernetes.model.bundle.descriptor.plugin.ValueFrom;
+import org.entando.kubernetes.model.bundle.descriptor.widget.WidgetDescriptor;
+import org.entando.kubernetes.model.bundle.descriptor.widget.WidgetDescriptor.ConfigUIDescriptor;
 import org.entando.kubernetes.model.bundle.installable.Installable;
 import org.entando.kubernetes.model.bundle.processor.ComponentProcessor;
 import org.entando.kubernetes.model.bundle.reader.BundleReader;
@@ -47,6 +50,7 @@ import org.entando.kubernetes.model.debundle.EntandoDeBundleBuilder;
 import org.entando.kubernetes.model.job.EntandoBundleComponentJobEntity;
 import org.entando.kubernetes.stubhelper.BundleInfoStubHelper;
 import org.entando.kubernetes.stubhelper.BundleStubHelper;
+import org.entando.kubernetes.stubhelper.WidgetStubHelper;
 import org.entando.kubernetes.utils.TestInstallUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -381,6 +385,28 @@ public class EntandoBundleReaderTest {
         assertThat(fd.getFilename()).isEqualTo("custom.css");
         assertThat(fd.getFolder()).isEqualTo("resources/css/");
     }
+
+//    @Test
+//    void shouldReturnTheExpectedWidgetResources() {
+//
+//        Set<String> jsResources = new HashSet<>(WidgetStubHelper.JS_RESOURCES);
+//        jsResources.add(WidgetStubHelper.RESOURCE_BASE_PATH + "/js/file.js.map");
+//        jsResources.add(WidgetStubHelper.RESOURCE_BASE_PATH + "/js/file.txt");
+//
+//        Set<String> cssResources = new HashSet<>(WidgetStubHelper.CSS_RESOURCES);
+//        cssResources.add(WidgetStubHelper.RESOURCE_BASE_PATH + "/css/file.css.map");
+//        cssResources.add(WidgetStubHelper.RESOURCE_BASE_PATH + "/css/file.pdf");
+//
+//        when(bundleReader.getWidgetResourcesOfType(descriptor.getCode(), "js")).thenReturn(jsResources);
+//        when(bundleReader.getWidgetResourcesOfType(descriptor.getCode(), "css")).thenReturn(cssResources);
+//
+//        String expected = "<script src=\"<@wp.resourceURL />widgets/my-code/static/js/runtime.js\"></script>\n"
+//                + "<script src=\"<@wp.resourceURL />widgets/my-code/static/js/main.js\"></script>\n"
+//                + "<link href=\"<@wp.resourceURL />widgets/my-code/static/css/style.css\" rel=\"stylesheet\">";
+//
+//        final String resourceTags = service.createResourceTags(descriptor.getCode(), bundleReader);
+//        assertThat(resourceTags).isEqualTo(expected);
+//    }
 
     private Path getTestDefaultBundlePath() throws IOException {
         return getBundlePath(TestInstallUtils.MOCK_BUNDLE_NAME_TGZ);

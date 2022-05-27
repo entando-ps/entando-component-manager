@@ -1,4 +1,4 @@
-package org.entando.kubernetes.model.bundle.descriptor.plugin;
+package org.entando.kubernetes.model.bundle.descriptor.widget;
 
 import java.util.Collections;
 import java.util.Map;
@@ -10,26 +10,24 @@ import org.springframework.util.ObjectUtils;
 
 @AllArgsConstructor
 @Getter
-public enum PluginDescriptorVersion implements DescriptorVersion {
+public enum WidgetDescriptorVersion implements DescriptorVersion {
 
     V1(DescriptorVersion.V1),
-    V2("v2"),
-    V3("v3"),
-    V4("v4");
+    V2("v2");
 
     private String version;
 
-    private static final Map<String, PluginDescriptorVersion> versionToDescriptorVersion;
+    private static final Map<String, WidgetDescriptorVersion> versionToDescriptorVersion;
 
     static {
-        Map<String, PluginDescriptorVersion> map = new ConcurrentHashMap<>();
-        for (PluginDescriptorVersion instance : PluginDescriptorVersion.values()) {
+        Map<String, WidgetDescriptorVersion> map = new ConcurrentHashMap<>();
+        for (WidgetDescriptorVersion instance : WidgetDescriptorVersion.values()) {
             map.put(instance.getVersion().toLowerCase(),instance);
         }
         versionToDescriptorVersion = Collections.unmodifiableMap(map);
     }
 
-    public static PluginDescriptorVersion fromVersion(String version) {
+    public static WidgetDescriptorVersion fromVersion(String version) {
         if (ObjectUtils.isEmpty(version)) {
             return null;
         }

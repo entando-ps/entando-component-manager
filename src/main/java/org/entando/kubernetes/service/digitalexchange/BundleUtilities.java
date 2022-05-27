@@ -206,7 +206,7 @@ public class BundleUtilities {
         return ingressPath;
     }
 
-    private static String composeIngressPathFromDockerImage(PluginDescriptor descriptor) {
+    public static String composeIngressPathFromDockerImage(PluginDescriptor descriptor) {
 
         DockerImage image = descriptor.getDockerImage();
 

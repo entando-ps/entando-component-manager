@@ -30,8 +30,8 @@ import org.entando.kubernetes.model.bundle.descriptor.LabelDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.LanguageDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.PageDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.PageTemplateDescriptor;
-import org.entando.kubernetes.model.bundle.descriptor.WidgetDescriptor;
 import org.entando.kubernetes.model.bundle.descriptor.content.ContentDescriptor;
+import org.entando.kubernetes.model.bundle.descriptor.widget.WidgetDescriptor;
 import org.entando.kubernetes.model.job.EntandoBundleComponentJobEntity;
 import org.entando.kubernetes.model.job.EntandoBundleJobEntity;
 import org.entando.kubernetes.model.job.JobStatus;
@@ -361,9 +361,9 @@ public class InstallFlowAssertionHelper {
                 TestInstallUtils.PLUGIN_TODOMVC_TODOMVC_1,
                 TestInstallUtils.PLUGIN_TODOMVC_TODOMVC_2,
                 TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE,
-                TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE,
-                TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE,
-                TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE,
+                TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE_V3,
+                TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE_V3C,
+                TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE_V4,
                 // Directories
                 "/something",
                 // Categories

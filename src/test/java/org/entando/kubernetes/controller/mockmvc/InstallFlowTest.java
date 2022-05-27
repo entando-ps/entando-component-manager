@@ -475,11 +475,7 @@ public class InstallFlowTest {
                             .equals(c.getComponentId()))
                     .collect(Collectors.toList());
 
-            if (c.getComponentId().equals(TestInstallUtils.PLUGIN_TODOMVC_CUSTOMBASE)) {
-                assertThat(jobs).hasSize(8);
-            } else {
-                assertThat(jobs).hasSize(2);
-            }
+            assertThat(jobs).hasSize(2);
             assertThat(jobs.stream().anyMatch(j -> j.getStatus().equals(JobStatus.INSTALL_ROLLBACK))).isTrue();
         }
 

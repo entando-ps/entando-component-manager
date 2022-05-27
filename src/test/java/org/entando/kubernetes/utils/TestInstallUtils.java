@@ -31,7 +31,6 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -82,6 +81,9 @@ public class TestInstallUtils {
     public static final String MOCK_BUNDLE_NAME = "todomvc";
     public static final String MOCK_BUNDLE_NAME_TGZ = "bundle.tgz";
     public static final String PLUGIN_TODOMVC_CUSTOMBASE = "pn-ece8f6f0-cbece4f7-custombasename";
+    public static final String PLUGIN_TODOMVC_CUSTOMBASE_V3 = "pn-ece8f6f0-434f3174-custombasenamev3";
+    public static final String PLUGIN_TODOMVC_CUSTOMBASE_V3C = "pn-ece8f6f0-bb1e1949-custombasenamev3c";
+    public static final String PLUGIN_TODOMVC_CUSTOMBASE_V4 = "pn-ece8f6f0-68277159-custombasenamev4";
     public static final String PLUGIN_TODOMVC_TODOMVC_1 = "pn-ece8f6f0-bb576c5d-entando-todomvcv1";
     public static final String PLUGIN_TODOMVC_TODOMVC_2 = "pn-ece8f6f0-cc2d5236-entando-todomvcv2";
     public static final UriBuilder INSTALL_PLANS_ENDPOINT = UriComponentsBuilder.newInstance()
@@ -471,12 +473,22 @@ public class TestInstallUtils {
         EntandoAppPluginLink plugin3 = new EntandoAppPluginLink(new ObjectMeta(),
                 new EntandoAppPluginLinkSpec("", "", "", PLUGIN_TODOMVC_CUSTOMBASE),
                 deploymentStatus);
+        EntandoAppPluginLink plugin4 = new EntandoAppPluginLink(new ObjectMeta(),
+                new EntandoAppPluginLinkSpec("", "", "", PLUGIN_TODOMVC_CUSTOMBASE_V3),
+                deploymentStatus);
+        EntandoAppPluginLink plugin5 = new EntandoAppPluginLink(new ObjectMeta(),
+                new EntandoAppPluginLinkSpec("", "", "", PLUGIN_TODOMVC_CUSTOMBASE_V3C),
+                deploymentStatus);
+        EntandoAppPluginLink plugin6 = new EntandoAppPluginLink(new ObjectMeta(),
+                new EntandoAppPluginLinkSpec("", "", "", PLUGIN_TODOMVC_CUSTOMBASE_V4),
+                deploymentStatus);
 
         when(k8sServiceClient.isPluginReadyToServeApp(any(), any())).thenReturn(true);
         when(k8sServiceClient.linkAppWithPlugin(any(), any(), any())).thenReturn(plugin1);
         when(k8sServiceClient.getLinkByName(any())).thenReturn(Optional.of(plugin1));
         when(k8sServiceClient.updatePlugin(any())).thenReturn(null);
-        when(k8sServiceClient.getAppLinks(any())).thenReturn(List.of(plugin1, plugin2, plugin3));
+        when(k8sServiceClient.getAppLinks(any())).thenReturn(
+                List.of(plugin1, plugin2, plugin3, plugin4, plugin5, plugin6));
     }
 
     @SneakyThrows

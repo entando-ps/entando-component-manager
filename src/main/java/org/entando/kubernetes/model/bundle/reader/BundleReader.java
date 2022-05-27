@@ -11,8 +11,10 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,6 +32,8 @@ import org.entando.kubernetes.model.debundle.EntandoDeBundle;
 
 @Slf4j
 public class BundleReader {
+
+    public static final String RESOURCES_PATH = "/widgets/%s/static";
 
     private final YAMLMapper mapper = new YAMLMapper();
     private final Path bundleBasePath;
@@ -125,6 +129,25 @@ public class BundleReader {
         }
     }
 
+    public List<String> getWidgetResourcesOfType(String widgetCode, String fileExt) {
+
+        final String widgetBundlePath = String.format(RESOURCES_PATH, widgetCode);
+        Path dirPath = Paths.get(bundleBasePath.toString(), widgetBundlePath, fileExt);
+
+        try {
+            try (Stream<Path> stream = Files.list(dirPath)) {
+                return stream
+                        .filter(path -> !Files.isDirectory(path))
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .filter(fileName -> FilenameUtils.getExtension(fileName).equals(fileExt))
+                        .collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
     private void verifyFileExistance(String fileName) {
         log.debug("Reading file {}", fileName);
         if (!bundleBasePath.resolve(fileName).toFile().exists()) {
@@ -140,7 +163,7 @@ public class BundleReader {
         if (this.entandoDeBundle == null) {
             throw new EntandoComponentManagerException("null entandoDeBundle detected while determining the bundle ID");
         }
-        
+
         return this.entandoDeBundle.getMetadata().getName();
     }
 

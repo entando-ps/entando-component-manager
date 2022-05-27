@@ -1,0 +1,17 @@
+descriptorVersion: v2
+code: todomvc_widget
+titles:
+  en: TODO MVC Widget
+  it: TODO MVC Widget
+group: free
+params:
+  - url
+  - title
+apiClaims:
+  - name: ext-api
+    type: external
+    serviceId: ms1
+    bundleId: anotherbundle
+  - name: int-api
+    type: internal
+    serviceId: my-service

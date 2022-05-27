@@ -120,6 +120,7 @@ public class KubernetesService {
 
     public boolean hasLinkingProcessCompletedSuccessfully(EntandoAppPluginLink link, EntandoPlugin plugin) {
         boolean result = false;
+        System.out.println("GETTING LINK BY NAME: " + link.getMetadata().getName());
         Optional<EntandoAppPluginLink> linkByName = k8sServiceClient.getLinkByName(link.getMetadata().getName());
         if (linkByName.isPresent()) {
             if (linkByName.get().getStatus().getEntandoDeploymentPhase().equals(FAILED)) {
@@ -127,8 +128,11 @@ public class KubernetesService {
                         plugin.getMetadata().getName());
                 throw new EntandoAppPluginLinkingProcessException(msg);
             }
+            System.out.println("LINK PRESENT. PHASE: " + linkByName.get().getStatus().getEntandoDeploymentPhase());
             result = linkByName.get().getStatus().getEntandoDeploymentPhase().equals(SUCCESSFUL)
                     && isPluginReady(plugin);
+        } else {
+            System.out.println("LINK NOT PRESENT");
         }
         return result;
     }
