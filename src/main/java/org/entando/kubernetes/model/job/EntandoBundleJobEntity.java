@@ -16,13 +16,8 @@ package org.entando.kubernetes.model.job;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -61,12 +56,15 @@ public class EntandoBundleJobEntity implements TrackableJob, HasProgress {
     @Column
     private Integer installErrorCode;
     @Column
+    @Lob
     private String installErrorMessage;
     @Column
     private Integer rollbackErrorCode;
     @Column
+    @Lob
     private String rollbackErrorMessage;
     @Column
+    @Lob
     private String installPlan;
     /**
      * this field denotes if a bundle installation has been customized by the user.

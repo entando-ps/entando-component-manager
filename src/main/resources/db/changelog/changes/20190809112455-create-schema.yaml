@@ -57,7 +57,7 @@ databaseChangeLog:
                     nullable: true
               - column:
                   name: status
-                  type: TEXT
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
@@ -99,12 +99,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: TEXT
+                  type: varchar(64)
                   constraints:
                     nullable: false
               - column:
                   name: component_type
-                  type: TEXT
+                  type: varchar(64)
                   constraints:
                     nullable: false
 
@@ -121,9 +121,6 @@ databaseChangeLog:
               - column:
                   name: description
                   type: VARCHAR(255)
-              - column:
-                  name: image
-                  type: BLOB
               - column:
                   constraints:
                     nullable: false
@@ -151,7 +148,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: rating
-                  type: FLOAT8
+                  type: FLOAT
               - column:
                   name: signature
                   type: VARCHAR(255)
@@ -165,8 +162,3 @@ databaseChangeLog:
                     nullable: false
                   name: version
                   type: VARCHAR(255)
-
-        - addUniqueConstraint:
-            columnNames: id
-            constraintName: uk_n385agwefm1rpoa2dmsj661n3
-            tableName: installed_entando_bundles

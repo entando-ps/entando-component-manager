@@ -7,6 +7,5 @@ databaseChangeLog:
             columns:
               - column:
                   name: custom_installation
-                  type: boolean
-                  defaultValue: false
+                  type: BOOLEAN
             tableName: entando_bundle_jobs

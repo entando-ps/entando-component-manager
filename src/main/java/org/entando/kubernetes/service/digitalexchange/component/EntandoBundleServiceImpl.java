@@ -28,6 +28,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.entando.kubernetes.client.k8ssvc.K8SServiceClient;
 import org.entando.kubernetes.exception.EntandoComponentManagerException;
 import org.entando.kubernetes.exception.digitalexchange.BundleNotInstalledException;
+import org.entando.kubernetes.model.AbstractThumbnailImage;
 import org.entando.kubernetes.model.bundle.BundleType;
 import org.entando.kubernetes.model.bundle.ComponentType;
 import org.entando.kubernetes.model.bundle.EntandoBundle;
@@ -191,7 +192,7 @@ public class EntandoBundleServiceImpl implements EntandoBundleService {
                 .code(entity.getId())
                 .title(entity.getName())
                 .description(entity.getDescription())
-                .thumbnail(entity.getImage())
+                .thumbnail(AbstractThumbnailImage.IMAGE_BASE64)
                 //.organization(entity.getOrganization())
                 .componentTypes(entity.getType())
                 .lastJob(lastJob)
@@ -212,7 +213,6 @@ public class EntandoBundleServiceImpl implements EntandoBundleService {
                 //.name(bundle.getTitle())
                 .name(bundle.getCode())
                 .description(bundle.getDescription())
-                .image(bundle.getThumbnail())
                 //.organization(entity.getOrganization())
                 .type(bundle.getComponentTypes())
                 .installed(bundle.isInstalled())

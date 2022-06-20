@@ -2,16 +2,8 @@ package org.entando.kubernetes.model.job;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,10 +37,12 @@ public class EntandoBundleComponentJobEntity implements TrackableJob, HasInstall
     @Column
     private Integer installErrorCode;
     @Column
+    @Lob
     private String installErrorMessage;
     @Column
     private Integer rollbackErrorCode;
     @Column
+    @Lob
     private String rollbackErrorMessage;
     @Column
     private String checksum;
