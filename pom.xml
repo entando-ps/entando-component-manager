@@ -6,7 +6,7 @@
 
     <groupId>org.entando</groupId>
     <artifactId>entando-component-manager</artifactId>
-    <version>6.3.26.envorcl.4</version>
+    <version>6.3.26.envorcl.5</version>
 
     <packaging>jar</packaging>
 
